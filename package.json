@@ -1,0 +1,29 @@
+{
+  "name": "mellonode",
+  "version": "1.0.0",
+  "description": "Mello Backend built with Node js , express and MongoDB",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server":"nodemon server.js "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vignesh-sivaprakasam/MelloNode.git"
+  },
+  "author": "Vignesh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vignesh-sivaprakasam/MelloNode/issues"
+  },
+  "homepage": "https://github.com/vignesh-sivaprakasam/MelloNode#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.1.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
