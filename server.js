@@ -2,6 +2,8 @@ const express    = require("express");
 const mongoose   = require("mongoose");
 const bodyParser = require("body-parser");
 
+const boards    = require('./server/Board/BoardController');
+
 const app = express();
 
 //BodyParser middleware
@@ -15,6 +17,10 @@ const db = require('./config/keys').mongoURI;
 mongoose.connect(db)
         .then(()=> console.log("MongoDB Connected... "))
         .catch(err =>  console.log(err));
+
+
+// API Routes
+app.use('/api/boards', boards);
 
 const port = process.env.PORT || 5000;
 
