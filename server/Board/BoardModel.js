@@ -9,6 +9,10 @@ const BoardSchema = new Schema({
         color : {
                 type : String
         },
+        stacks : [{
+                type    : Schema.Types.ObjectId,
+                ref     : 'stack'
+        }]
 });
 
 module.exports = Board = mongoose.model('board', BoardSchema);
