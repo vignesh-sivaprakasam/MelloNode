@@ -4,16 +4,17 @@ const router  = express.Router();
 const Stack = require('../Stack/StackModel');
 const Board = require('../Board/BoardModel');
 
-//@route        GET api/boards/:id/stacks
+//@route        GET api/boards/:boardID/stacks
 //@desc         Get All Stacks of a board
 //@access       public
 
 router.get("/:boardID/stacks/", (req, res) => {
         Stack.find()
+                .populate('cards')
                 .then(stacks => res.json(stacks));
 });
 
-//@route        POST api/boards/:id/stacks
+//@route        POST api/boards/:boardID/stacks
 //@desc         Create a Stack for a board
 //@access       public
 
@@ -37,5 +38,43 @@ router.post("/:boardID/stacks/", (req, res) => {
         });
 });
 
+
+//@route        GET api/boards/:boardID/stacks/:stackID
+//@desc         Get a Stack of a board
+//@access       public
+
+router.get("/:boardID/stacks/:stackID", (req, res)=>{
+        Stack.findById(req.params.stackID)
+                .populate('cards')
+                .then((stack)=>{
+                        return res.json(stack);
+                });
+});
+
+
+//@route        PUT api/boards/:boardID/stacks/:stackID
+//@desc         Update a Stack of a board
+//@access       public
+
+router.put("/:boardID/stacks/:stackID", (req, res)=>{
+        Stack.findByIdAndUpdate(req.params.stackID, {
+                name  : req.body.name,
+                color : req.body.color
+        },{new: true})
+                .then((stack) => {
+                        return res.json(stack);
+                });
+});
+
+//@route        DELETE api/boards/:boardID/stacks/:stackID
+//@desc         Delete a Stack of a board
+//@access       public
+
+router.delete("/:boardID/stacks/:stackID", (req, res) => {
+        Stack.findByIdAndDelete(req.params.stackID)
+                .then((stack)=>{
+                        return res.json(stack);
+                });
+});
 
 module.exports = router;

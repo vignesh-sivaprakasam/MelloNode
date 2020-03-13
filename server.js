@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 
 const boards    = require('./server/Board/BoardController');
 const stacks    = require('./server/Stack/StackController');
+const cards     = require('./server/Card/CardController');
 
 const app = express();
 
@@ -24,6 +25,8 @@ mongoose.connect(db)
 app.use('/api/boards', boards);
 
 app.use('/api/boards', stacks);
+
+app.use('/api/boards', cards);
 
 const port = process.env.PORT || 5000;
 
