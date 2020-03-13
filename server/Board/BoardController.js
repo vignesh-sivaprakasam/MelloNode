@@ -40,6 +40,22 @@ router.get("/:id", (req, res) => {
                 .catch(err => res.status(404).json({ success: false }));
 });
 
+
+//@route        PUT api/boards/:id
+//@desc         Update the Board value
+//@access       public
+
+router.put("/:id", (req, res) => {
+        // {new : true} to get the updated value in response
+        Board.findByIdAndUpdate(req.params.id, {
+                name  : req.body.name,
+                color : req.body.color
+        }, {new : true}).then(board => {
+                return res.json(board);
+        });
+});
+
+
 //@route        DELETE api/boards/:id
 //@desc         Delete the Board
 //@access       public
