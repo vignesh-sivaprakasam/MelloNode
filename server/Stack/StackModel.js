@@ -8,6 +8,14 @@ const StackSchema = new Schema({
         color : {
                 type : String
         },
+        card_order : [{
+                type : Schema.Types.ObjectId,
+                ref  : 'card'
+        }],
+        cards : [{
+                type : Schema.Types.ObjectId,
+                ref  : 'card'
+        }],
         board : {
                 type : Schema.Types.ObjectId,
                 ref  : 'board'

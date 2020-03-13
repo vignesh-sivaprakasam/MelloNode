@@ -33,7 +33,13 @@ router.post("/", (req, res) => {
 
 router.get("/:id", (req, res) => {
         Board.findById(req.params.id)
-                .populate('stacks')
+                .populate({
+                        path : 'stacks',
+                        populate : {
+                                path  : 'cards',
+                                model : 'card'
+                        }
+                })
                 .then(board => 
                         res.json(board)
                 )

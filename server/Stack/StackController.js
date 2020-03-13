@@ -10,6 +10,7 @@ const Board = require('../Board/BoardModel');
 
 router.get("/:boardID/stacks/", (req, res) => {
         Stack.find()
+                .populate('cards')
                 .then(stacks => res.json(stacks));
 });
 
@@ -44,6 +45,7 @@ router.post("/:boardID/stacks/", (req, res) => {
 
 router.get("/:boardID/stacks/:stackID", (req, res)=>{
         Stack.findById(req.params.stackID)
+                .populate('cards')
                 .then((stack)=>{
                         return res.json(stack);
                 });
@@ -55,7 +57,7 @@ router.get("/:boardID/stacks/:stackID", (req, res)=>{
 //@access       public
 
 router.put("/:boardID/stacks/:stackID", (req, res)=>{
-        Stack.findByIdAndUpdate(stackID, {
+        Stack.findByIdAndUpdate(req.params.stackID, {
                 name  : req.body.name,
                 color : req.body.color
         },{new: true})
@@ -69,7 +71,7 @@ router.put("/:boardID/stacks/:stackID", (req, res)=>{
 //@access       public
 
 router.delete("/:boardID/stacks/:stackID", (req, res) => {
-        Stack.findByIdAndDelete(stackID)
+        Stack.findByIdAndDelete(req.params.stackID)
                 .then((stack)=>{
                         return res.json(stack);
                 });
