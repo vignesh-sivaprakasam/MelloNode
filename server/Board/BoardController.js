@@ -10,7 +10,9 @@ const Board = require('../../server/Board/BoardModel');
 
 router.get("/", (req, res) => {
         Board.find()
-                .then(boards => res.json(boards));
+                .populate('stack')
+                .then(boards => 
+                        res.json(boards));
 });
 
 //@route        POST api/boards
@@ -31,7 +33,10 @@ router.post("/", (req, res) => {
 
 router.get("/:id", (req, res) => {
         Board.findById(req.params.id)
-                .then(board => res.json(board))
+                .populate('stacks')
+                .then(board => 
+                        res.json(board)
+                )
                 .catch(err => res.status(404).json({ success: false }));
 });
 
