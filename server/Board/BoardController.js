@@ -9,10 +9,15 @@ const Board = require('../../server/Board/BoardModel');
 //@access       public
 
 router.get("/", (req, res) => {
-        Board.find()
-                .populate('stack')
-                .then(boards => 
-                        res.json(boards));
+        if(req.query.type == "all"){
+                Board.find()
+                        .then(boards => res.json(boards));
+        } else {
+                Board.find()
+                        .populate('stacks')
+                        .then(boards => 
+                                res.json(boards));
+        }
 });
 
 //@route        POST api/boards
