@@ -92,4 +92,35 @@ router.delete("/:boardID/stacks/:stackID/cards/:cardID", (req, res) => {
                 });
 });
 
+
+router.put("/:boardID/stacks/:stackID/cards/:cardID/move", (req, res) => {
+        const params = req.params;
+        const query  = req.query;
+        console.log("boardID :",params.boardID, " from stackID :", params.stackID, " toStackID :", query.stackID, " position :", query.pos);
+        const boardID     = params.boardID;
+        const fromStackID = params.stackID;
+        const toStackID   = query.stackID;
+        const position    = query.pos;
+        const cardID      = params.cardID;
+
+        if(fromStackID === toStackID){
+                Stack.findByIdAndUpdate(fromStackID, {
+                        $pull : {
+                                card_order : cardID
+                        }
+                },{new : true}).then((stack)=>{
+                        Stack.findByIdAndUpdate(fromStackID, {
+                                $push : {
+                                        card_order : {
+                                                $each     : [cardID],
+                                                $position : position
+                                        }
+                                }
+                        }).then(() => {
+                                return res.json({success : true});
+                        });
+                });
+        }
+});
+
 module.exports = router;
