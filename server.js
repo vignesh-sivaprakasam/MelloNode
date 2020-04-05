@@ -7,7 +7,7 @@ const stacks    = require('./server/Stack/StackController');
 const cards     = require('./server/Card/CardController');
 
 const app = express();
-var allowedOrigins = ['http://localhost:8080', 'https://mello-server.herokuapp.com'];
+var allowedOrigins = ['http://localhost:8080', 'https://mello-server.herokuapp.com','http://mello-client.herokuapp.com/'];
 app.use(function(req, res, next) {
 
         var origin = req.headers.origin;
