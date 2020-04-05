@@ -103,24 +103,23 @@ router.put("/:boardID/stacks/:stackID/cards/:cardID/move", (req, res) => {
         const position    = query.pos;
         const cardID      = params.cardID;
 
-        if(fromStackID === toStackID){
-                Stack.findByIdAndUpdate(fromStackID, {
-                        $pull : {
-                                card_order : cardID
-                        }
-                },{new : true}).then((stack)=>{
-                        Stack.findByIdAndUpdate(fromStackID, {
-                                $push : {
-                                        card_order : {
-                                                $each     : [cardID],
-                                                $position : position
-                                        }
+
+        Stack.findByIdAndUpdate(fromStackID, {
+                $pull : {
+                        card_order : cardID
+                }
+        },{new : true}).then((stack)=>{
+                Stack.findByIdAndUpdate(toStackID, {
+                        $push : {
+                                card_order : {
+                                        $each     : [cardID],
+                                        $position : position
                                 }
-                        }).then(() => {
-                                return res.json({success : true});
-                        });
+                        }
+                }).then(() => {
+                        return res.json({success : true});
                 });
-        }
+        });
 });
 
 module.exports = router;
