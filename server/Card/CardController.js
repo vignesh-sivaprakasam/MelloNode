@@ -100,25 +100,49 @@ router.put("/:boardID/stacks/:stackID/cards/:cardID/move", (req, res) => {
         const boardID     = params.boardID;
         const fromStackID = params.stackID;
         const toStackID   = query.stackID;
-        const position    = query.pos;
+        const position    = ~~query.pos;
         const cardID      = params.cardID;
 
 
         Stack.findByIdAndUpdate(fromStackID, {
                 $pull : {
-                        card_order : cardID
+                        card_order : cardID,
+                        cards      : cardID
                 }
         },{new : true}).then((stack)=>{
-                Stack.findByIdAndUpdate(toStackID, {
-                        $push : {
-                                card_order : {
-                                        $each     : [cardID],
-                                        $position : position
+                if(fromStackID !== toStackID){
+                        Card.findByIdAndUpdate(cardID,{
+                                stack       : toStackID
+                        }).then(()=> {
+                                Stack.findByIdAndUpdate(toStackID, {
+                                        $push : {
+                                                card_order : {
+                                                        $each     : [cardID],
+                                                        $position : position
+                                                },
+                                                cards : {
+                                                        $each : [cardID],
+                                                        $position : position
+                                                }
+                                        }
+                                }).then(() => {
+                                        return res.json({success : true});
+                                });
+                        });
+                } else {
+                        Stack.findByIdAndUpdate(toStackID, {
+                                $push : {
+                                        card_order : {
+                                                $each     : [cardID],
+                                                $position : position
+                                        }
                                 }
-                        }
-                }).then(() => {
-                        return res.json({success : true});
-                });
+                        }).then(() => {
+                                return res.json({success : true});
+                        });
+                }
+        }).catch(err => {
+                console.log("err : ",err);
         });
 });
 
