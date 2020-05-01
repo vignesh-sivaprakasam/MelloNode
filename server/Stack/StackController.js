@@ -66,6 +66,7 @@ router.put("/:boardID/stacks/:stackID", (req, res)=>{
                 name  : req.body.name,
                 color : req.body.color
         },{new: true})
+                .populate('cards')
                 .then((stack) => {
                         return res.json(stack);
                 });
