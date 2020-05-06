@@ -14,7 +14,6 @@ app.use(function(req, res, next) {
         if(allowedOrigins.indexOf(origin) > -1){
                 res.setHeader('Access-Control-Allow-Origin', origin);
         }
-        // res.header("Access-Control-Allow-Origin", "http://localhost:8080"); // update to match the domain you will make the request from
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
         next();
