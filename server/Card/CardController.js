@@ -110,37 +110,24 @@ router.put("/:boardID/stacks/:stackID/cards/:cardID/move", (req, res) => {
                         cards      : cardID
                 }
         },{new : true}).then((stack)=>{
-                if(fromStackID !== toStackID){
-                        Card.findByIdAndUpdate(cardID,{
-                                stack       : toStackID
-                        }).then(()=> {
-                                Stack.findByIdAndUpdate(toStackID, {
-                                        $push : {
-                                                card_order : {
-                                                        $each     : [cardID],
-                                                        $position : position
-                                                },
-                                                cards : {
-                                                        $each : [cardID],
-                                                        $position : position
-                                                }
-                                        }
-                                }).then(() => {
-                                        return res.json({success : true});
-                                });
-                        });
-                } else {
+                Card.findByIdAndUpdate(cardID,{
+                        stack       : toStackID
+                }).then(()=> {
                         Stack.findByIdAndUpdate(toStackID, {
                                 $push : {
                                         card_order : {
                                                 $each     : [cardID],
+                                                $position : position
+                                        },
+                                        cards : {
+                                                $each : [cardID],
                                                 $position : position
                                         }
                                 }
                         }).then(() => {
                                 return res.json({success : true});
                         });
-                }
+                });
         }).catch(err => {
                 console.log("err : ",err);
         });
